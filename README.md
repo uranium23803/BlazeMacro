@@ -200,6 +200,14 @@ https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendinput
 https://learn.microsoft.com/en-us/windows/win32/winmsg/lowlevelkeyboardproc
 https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-kbdllhookstruct
 
+<img width="1145" height="863" alt="main" src="https://github.com/user-attachments/assets/a1d9b6d7-7c0a-4646-b548-bb4b4311115f" />
+
+<img width="1145" height="865" alt="work" src="https://github.com/user-attachments/assets/8913dab4-3925-4c6e-b893-81a2bdf28f10" />
+
+<img width="1145" height="865" alt="submenu2" src="https://github.com/user-attachments/assets/f0042399-729b-4454-b722-d4e72f281ed4" />
+
+
+
 
 
 Мои контакты:
@@ -409,6 +417,12 @@ Windows API documentation:
 https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendinput
 https://learn.microsoft.com/en-us/windows/win32/winmsg/lowlevelkeyboardproc
 https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-kbdllhookstruct
+
+<img width="1145" height="863" alt="main" src="https://github.com/user-attachments/assets/a1d9b6d7-7c0a-4646-b548-bb4b4311115f" />
+
+<img width="1145" height="865" alt="work" src="https://github.com/user-attachments/assets/8913dab4-3925-4c6e-b893-81a2bdf28f10" />
+
+<img width="1145" height="865" alt="submenu2" src="https://github.com/user-attachments/assets/f0042399-729b-4454-b722-d4e72f281ed4" />
 
 My contacts:
 TG: @uranium_23803
