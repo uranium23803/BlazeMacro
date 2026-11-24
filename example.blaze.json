@@ -1,0 +1,14 @@
+{
+  "Version": 1,
+  "Name": "Пример: A, пауза, B, пауза, C",
+  "Trigger": 117,
+  "Repeats": 1,
+  "RepeatDelay": 200,
+  "Steps": [
+    { "Kind": "Tap", "Key": 65, "Milliseconds": 50 },
+    { "Kind": "Wait", "Milliseconds": 250 },
+    { "Kind": "Tap", "Key": 66, "Milliseconds": 50 },
+    { "Kind": "Wait", "Milliseconds": 250 },
+    { "Kind": "Tap", "Key": 67, "Milliseconds": 50 }
+  ]
+}

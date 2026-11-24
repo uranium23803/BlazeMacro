@@ -1,0 +1,12 @@
+{
+  "Version": 2,
+  "Name": "Пример: Ctrl и левый клик",
+  "Trigger": 117,
+  "Repeats": 1,
+  "RepeatDelay": 200,
+  "Steps": [
+    { "Kind": "Down", "Key": 162 },
+    { "Kind": "Tap", "Key": 1, "Milliseconds": 50 },
+    { "Kind": "Up", "Key": 162 }
+  ]
+}
