@@ -429,3 +429,196 @@ https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-kbdllhook
 My contacts:
 TG: @uranium_23803
 GitHub : https://github.com/uranium23803
+
+
+*****************************************************************************************************************
+   FAQ
+*****************************************************************************************************************
+RUS/ru
+******************************************************************************************************************
+FAQ — Частые вопросы о BlazeMacro
+Что это вообще такое?
+BlazeMacro — бесплатная программа с открытым исходным кодом для механических клавиатур, в первую очередь для DEXP Blaze. Она делает две вещи: записывает и воспроизводит макросы (клавиатура + кнопки мыши) и управляет подсветкой напрямую через HID, без OpenRGB.
+
+Проект появился просто: я купил DEXP Blaze, обнаружил, что фирменного софта под неё нет вообще — ни макросов, ни настроек подсветки, — и решил исправить ситуацию. Заодно это поможет всем, кто столкнулся с той же проблемой: таких людей, судя по форумам, немало.
+
+Это не официальный и не коммерческий продукт. Я не связан с DEXP или DNS.
+
+Это вирус? Стиллер? Майнер?
+Нет. И вот почему этому можно доверять, а не просто верить на слово:
+
+Весь код открыт — лежит в папке src, его может проверить любой. Там 13 файлов на C#, ничего больше.
+Нет сетевой активности. Программа никуда ничего не отправляет. Макросы хранятся локально в файлах *.blaze.json.
+Нет рекламы, майнинга, телеметрии.
+Можно собрать самому. Если не доверяешь чужим exe — собери свою копию:
+text
+dotnet build src\BlazeMacro.csproj -c Release
+Собранная тобой версия гарантированно соответствует исходникам — это лучший способ убедиться, что внутри нет ничего лишнего.
+
+Если ты скачал эту утилиту с вирусами, рекламой или заплатил за неё деньги — тебя обманули. Ты наткнулся на копию или подделку. Оригинал бесплатен и распространяется только здесь, на GitHub.
+Я сломаю клавиатуру кнопкой «Применить» в подсветке?
+Это самый частый страх, поэтому объясню подробно.
+
+Запись ограничена 8 байтами заголовка подсветки по смещению 1. Что это значит на практике:
+
+прошивка клавиатуры не затрагивается;
+таблицы клавиш не затрагиваются;
+частота опроса не затрагивается;
+индивидуальные LED-таблицы не затрагиваются.
+То есть максимально «глубокий» эффект от записи — подсветка станет выглядеть не так, как было. И даже от этого есть страховка: перед каждой записью программа сохраняет резервную копию текущего состояния в:
+
+%LOCALAPPDATA%\BlazeMacro\LightingBackups
+В файле лежит прежнее состояние и запрошенный заголовок. При ошибке записи автоматического повтора нет — просто прочитайте состояние заново.
+
+Честное предупреждение: функция записи пока экспериментальная. На реальной клавиатуре проверены чтение состояния и сигнатура протокола; формирование пакетов, границы записи и разбор ответов проверены программно. Но массовой проверки на живом железе ещё не было — «экспериментально» здесь означает «читай внимательно, делай бэкапы», а не «сломает клавиатуру».
+
+Почему нет цифровой подписи?
+Потому что это бесплатный проект одного человека. Сертификат кодовой подписи стоит денег и требует продления — для хобби-проекта без донатов это просто бессмысленная трата. Отсутствие подписи — не признак вируса, а нормальная ситуация для независимых утилит. Хотите гарантий — собирайте из исходников, они открыты.
+
+Почему программа весит 110 МБ?
+Это self-contained сборка .NET: в один exe упакован весь рантайм. Поэтому .NET отдельно устанавливать не нужно — скачал и запустил. Размер не секретный и не подозрительный, так устроены все однофайловые self-contained приложения.
+
+Это работает в играх? А в Fortnite?
+Технически — работает так же, как любой софт, эмулирующий ввод через SendInput. Но честно:
+
+Автоматизация игровых действий может нарушать правила конкретной игры.
+Гарантий отсутствия блокировки нет.
+Античиты умеют детектировать синтетический ввод, а некоторые игры его вообще не принимают.
+Автор не несёт ответственности, если при использовании программы вы получили блокировку учётной записи.
+Решение использовать макросы в онлайн-играх — ваше и только ваше. Я вас предупредил, README предупреждает, дальше сами.
+
+Чем это отличается от «официального драйвера»?
+Ничем не отличается по названию и всем отличается по сути: это не драйвер. Программа не прошивает клавиатуру и не добавляет ей новых аппаратных функций. Она работает на уровне Windows: макросы воспроизводятся системой, а подсветка управляется через вендорский HID-канал — тем же протоколом EVision, который уже исследован в проекте OpenRGB. Всё, что программа умеет, — уже заложено в железе, она просто даёт к этому доступ.
+
+Как начать пользоваться?
+Скачайте релиз или соберите из исходников.
+Запустите app\BlazeMacro.exe.
+Макрос: нажмите «Записать», за 3 секунды переключитесь в нужное приложение, выполните последовательность, нажмите F9 для завершения. Проверьте шаги, сохраните макрос.
+Назначьте клавишу запуска («F6 · изменить» — и физически нажмите нужную клавишу).
+В целевом окне нажмите и отпустите клавишу запуска — макрос воспроизведётся. F9 — остановка в любой момент.
+Подсветка: кнопка «Подсветка…» → «Прочитать с клавиатуры» → выберите эффект, яркость 0–4, скорость 0–5, цвет → «Применить». До первого чтения запись недоступна — это сделано специально.
+Аппаратные сочетания самой клавиатуры (Fn + Scroll Lock, Fn + Home и т. д.) продолжают работать как раньше — программа им не мешает.
+
+Программа ничего не делает. Что проверить?
+Целевое приложение запущено от администратора? Тогда запустите BlazeMacro тоже от администратора: обычный процесс не может посылать ввод процессу с повышенными правами. По умолчанию программа права не запрашивает.
+Некоторые игры и защищённые приложения блокируют синтетический ввод — это не баг, а их защита.
+Конфликт с другими макро-утилитами: если запущены AutoHotkey или подобное, возможны конфликты за ввод.
+Проверьте раскладку и Caps Lock: макрос воспроизводит клавиши, а не готовый текст.
+Курсор: позиция мыши не записывается. Каждый клик происходит там, где курсор находится в момент запуска. Наведите курсор на нужный элемент заранее.
+Почему паузы иногда «плывут»?
+Windows — не система жёсткого реального времени: интервалы зависят от нагрузки. В программе есть три режима пауз (Обычный / Запрос 1 мс / Точный) — их можно сравнить встроенным бенчмарком «Сравнить режимы». Он замеряет точность таймеров, но это не замер задержки клавиатуры, USB или игры — снижения задержки в игре из него не следует.
+
+Что точно НЕ умеет программа
+Работать без запущенного приложения: макросы живут в памяти ПК, не в клавиатуре.
+Различать несколько подключённых клавиатур.
+Записывать перемещения мыши и прокрутку колеса.
+Переживать закрытие окна: автозапуска и автозагрузки нет.
+Передавать Fn и некоторые аппаратные мультимедийные комбинации — их Windows не всегда видит.
+Где backups и отчёты
+Резервные копии подсветки: %LOCALAPPDATA%\BlazeMacro\LightingBackups
+Отчёты диагностики и бенчмарков: сохраняются в TXT/JSON в указанную вами папку. Есть и режим командной строки:
+app\BlazeMacro.exe --diagnose-hid "папка" — диагностика HID
+app\BlazeMacro.exe --check-direct-reading "папка" — проверка чтения подсветки
+Хочу убедиться сам. С чего начать?
+Соберите из исходников — лучший способ убедиться, что в бинарнике нет ничего лишнего.
+Прогоните exe через VirusTotal. Для утилиты с SendInput и low-level hooks 0–2 срабатывания из 70 — норма (эвристики часто ругаются на эмуляцию ввода). 10+ детектов — повод насторожиться и писать мне.
+Откройте код. Начните с Core.cs (логика макросов), EvisionLighting.cs и Lighting.cs (подсветка). Там нет сетевых запросов и ничего нет за пределами папки программы и LightingBackups.
+
+*****************************************************************************************************************
+ENG/en
+******************************************************************************************************************
+
+FAQ — Frequently Asked Questions about BlazeMacro
+What is this?
+BlazeMacro is a free, open‑source tool for mechanical keyboards, primarily designed for the DEXP Blaze. It lets you:
+
+Record and replay macros (keyboard + mouse buttons).
+Control backlighting directly via HID, without needing OpenRGB.
+I built this because I bought a DEXP Blaze and realized there’s no official software at all—no macros, no lighting controls. I wanted to fix that for myself and help others who hit the same wall (and judging by forum threads, there are plenty of them).
+
+This is not an official or commercial product. I’m not affiliated with DEXP or DNS.
+
+Is this a virus? A stealer? A miner?
+No. Here’s why you can trust it:
+
+Full source code is public in the src folder—13 C# files, nothing hidden. Anyone can audit it.
+No network activity. The app doesn’t send anything anywhere. Macros are saved locally as *.blaze.json files.
+No ads, no mining, no telemetry.
+You can build it yourself for the strongest guarantee:
+bash
+dotnet build src\BlazeMacro.csproj -c Release
+A build from the published sources matches exactly what’s in the repo—no surprises.
+
+If you paid money for this tool, or downloaded a version with viruses/ads, you’ve been scammed. The original is free and only distributed here on GitHub. Any paid copy is a fake.
+Will clicking “Apply” break my keyboard?
+This is the biggest worry, so let’s be clear.
+
+The write operation is strictly limited to 8 bytes of the lighting header at offset 1. In practice, that means:
+
+The keyboard’s firmware is untouched.
+Key mapping tables are untouched.
+Polling rate is untouched.
+Individual LED tables are untouched.
+At worst, the lighting will look different than before. And there’s a safety net: before every write, the app saves a backup of the current state to:
+
+text
+%LOCALAPPDATA%\BlazeMacro\LightingBackups
+Each backup includes the previous state and the requested header. If something goes wrong, you can manually restore it. There’s no automatic retry on write failure—just re-read the state and try again.
+
+Full disclosure: the write feature is still experimental. We’ve verified the protocol signature and read states on real hardware, and we’ve tested packet formation, write boundaries, and response parsing in code. But we haven’t done large‑scale live testing on physical units yet. “Experimental” here means “read carefully, use backups,” not “this will brick your device.”
+
+Why doesn’t it have a code signing certificate?
+Because this is a one‑person, non‑commercial project. Code signing certificates cost money and need renewal—for a free hobby tool with no donations, it’s not worth it. No signature is normal for independent utilities. If you want maximum confidence, build from source—that’s the gold standard.
+
+Why is the executable 110 MB?
+It’s a self‑contained .NET build: the runtime is bundled inside the single EXE. That’s why you don’t need to install .NET separately. The size is expected and not suspicious—this is how all single‑file self‑contained apps work.
+
+Does this work in games? What about Fortnite?
+Technically, yes: it emulates input using Windows SendInput, just like other macro tools. But be realistic:
+
+Automating gameplay actions can violate a game’s terms of service.
+There are no guarantees against account bans.
+Anti‑cheat systems can detect synthetic input; some games outright block it.
+I’m not responsible if your account gets suspended or banned due to using this tool in online games.
+Using macros in competitive online play is entirely your decision. I’ve warned you in the README, I’m warning you here—the rest is on you.
+
+How is this different from an “official driver”?
+It isn’t a driver at all. It doesn’t flash the keyboard or add new hardware features. Instead, it works at the Windows level:
+
+Macros run as system input.
+Lighting is controlled via the vendor’s HID channel, using the EVision protocol (the same one researched in the OpenRGB project).
+Everything it does is already supported by the hardware; BlazeMacro just exposes those capabilities.
+
+Quick Start
+Download the release or build from source.
+Run app\BlazeMacro.exe.
+To record a macro: click “Record”, switch to your target app within 3 seconds, perform your sequence, press F9 to stop. Review the steps and save the macro.
+Set a launch key (“F6 · change” then press the key you want).
+In the target window, press and release the launch key to run the macro. Press F9 at any time to stop.
+For lighting: click “Lighting…”, then “Read from Keyboard”. Choose effect, brightness (0–4), speed (0–5), and color, then click “Apply”. Writing is disabled until you’ve successfully read the state once—this is intentional.
+The keyboard’s native shortcuts (Fn + Scroll Lock, Fn + Home, etc.) still work as usual and aren’t affected by the app.
+
+It’s not working. What should I check?
+Target app runs as admin? Then run BlazeMacro as admin too. Normal processes can’t inject input into elevated ones. By default, the app doesn’t request admin rights.
+Some games and protected apps block synthetic input. This is their security design, not a bug.
+Conflicts with other macro tools. If AutoHotkey or similar is running, they may fight over input.
+Layout and Caps Lock matter. The macro replays keys, not final characters.
+Mouse position isn’t recorded. Every click happens where the cursor is when you start the macro. Position the cursor manually before triggering it.
+Why do delays sometimes “drift”?
+Windows isn’t a hard real‑time OS: timing depends on system load. The app offers three delay modes (Normal / 1 ms request / Precise) and a built‑in benchmark (“Compare Modes”) to measure timer accuracy. But this measures Windows timers only—it does not measure keyboard latency, USB latency, or game latency, and it won’t reduce in‑game delay.
+
+Things This Tool Definitely Does NOT Do
+Run without the app open: macros live in RAM, not in the keyboard.
+Distinguish between multiple connected keyboards.
+Record mouse movement or wheel scroll.
+Auto‑start or auto‑load on boot.
+Send Fn or some hardware multimedia combos—Windows doesn’t always expose them.
+Where Are Backups and Reports?
+Lighting backups: %LOCALAPPDATA%\BlazeMacro\LightingBackups
+Diagnostic and benchmark reports: saved as TXT/JSON to a folder you specify. Command‑line options:
+app\BlazeMacro.exe --diagnose-hid "folder" — HID diagnostics
+app\BlazeMacro.exe --check-direct-reading "folder" — direct read check for lighting
+I Want to Verify It Myself. Where Should I Start?
+Build from source. This is the best way to be 100% sure there’s nothing extra in the binary.
+Scan the EXE with VirusTotal. For a tool that uses SendInput and low‑level hooks, 0–2 detections out of ~70 is typical (heuristics flag input emulation). 10+ detections is a red flag and worth reporting to me.
+Read the code. Start with Core.cs (macro logic), EvisionLighting.cs, and Lighting.cs (lighting control). You’ll see no network calls and nothing outside the app folder and LightingBackups.
